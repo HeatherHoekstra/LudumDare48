@@ -35,22 +35,26 @@ public class SpawnItems : MonoBehaviour
 
     private void Spawn()
     {
-        //pick nr tussen 0 en 3 (aantal dat spawnt)(while loop)
+        //pick number of items to be spawned
         float numberOfItems = Random.Range(0, 4);
         
         while(numberOfItems > 0)
         {
             numberOfItems--;
 
+            //Pick a spawnlocation
+
             spawnPointIndex = Random.Range(0, spawnPoints.Length);
             GameObject spawnPoint = spawnPoints[spawnPointIndex];
             SpawnPoint script = spawnPoint.GetComponent<SpawnPoint>();
             if (script.full)
             {
+                //if this spot is already taken, try again
                 numberOfItems++;
             }
             else
             {
+                //spawn an item in this spot
                 script.full = true;
                 itemIndex = Random.Range(0, items.Length);
                 GameObject item = items[itemIndex];

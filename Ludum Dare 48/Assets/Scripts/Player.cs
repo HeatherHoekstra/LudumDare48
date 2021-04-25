@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [Header("References")]
     public UI UI;
     public GameObject blood;
+    public AudioSource windAudio;
     [SerializeField] AudioClip soundCloud;
     [SerializeField] AudioClip soundCalcium;
     [SerializeField] AudioClip soundFeather;
@@ -222,6 +223,7 @@ public class Player : MonoBehaviour
             falling = false;
 
             PlaySound(soundDead, 1);
+            windAudio.enabled = false;
 
             if (dangerZone)
             {
