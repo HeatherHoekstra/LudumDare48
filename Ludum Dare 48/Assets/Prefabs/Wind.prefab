@@ -150,6 +150,8 @@ GameObject:
   - component: {fileID: 6658682750091984769}
   - component: {fileID: 501947552039888527}
   - component: {fileID: 28337520182359977}
+  - component: {fileID: 1848977390171274638}
+  - component: {fileID: 6310517994738426279}
   m_Layer: 0
   m_Name: Wind
   m_TagString: Wind
@@ -250,3 +252,34 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 9.641361, y: 13.043701}
   m_EdgeRadius: 0
+--- !u!114 &1848977390171274638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8398286723231557642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2edb5d2e01d75e4ba0563cee0e2d1da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &6310517994738426279
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8398286723231557642}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: aec2e945cd9b81d4988c907f0124f935, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

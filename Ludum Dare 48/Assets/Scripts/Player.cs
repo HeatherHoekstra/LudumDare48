@@ -5,6 +5,18 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private Animator anim;
+    private AudioSource sfx;
+
+    [Header("References")]
+    public UI UI;
+    public GameObject blood;
+    [SerializeField] AudioClip soundCloud;
+    [SerializeField] AudioClip soundCalcium;
+    [SerializeField] AudioClip soundFeather;
+    [SerializeField] AudioClip soundWeight;
+    [SerializeField] AudioClip soundDead;
+    [SerializeField] AudioClip soundAlive;
 
     [Header("Player stats")]
     [SerializeField] private float speed = 1;
@@ -33,12 +45,15 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        sfx = GetComponent<AudioSource>();
         baseFallSpeed = minBaseFallSpeed;
         fallSpeed = baseFallSpeed + weight;
     }
 
     private void Update()
     {
+        
         if (falling)
         {
             if(weight < 0)
@@ -46,7 +61,7 @@ public class Player : MonoBehaviour
                 weight = 0;
             }
 
-            if(fallSpeed > strength * 3)
+            if(fallSpeed > strength * 1.5)
             {
                 dangerZone = true;
             }
@@ -121,6 +136,11 @@ public class Player : MonoBehaviour
                 moveX = Input.GetAxisRaw("Horizontal");
             }
         }
+
+        if (!falling)
+        {
+            moveX = 0;
+        }
     }
 
 
@@ -137,7 +157,8 @@ public class Player : MonoBehaviour
             {
                 weight -= featherStat;
             }
-            Destroy(collision.gameObject);
+            PlaySound(soundFeather, .3f);
+            collision.gameObject.SetActive(false);
         }
         else if (collision.gameObject.tag == "FeatherBig")
         {
@@ -145,30 +166,44 @@ public class Player : MonoBehaviour
             {
                 weight -= featherStat *2;
             }
-            Destroy(collision.gameObject);
+            PlaySound(soundFeather, .3f);
+            collision.gameObject.SetActive(false);
         }
         else if(collision.gameObject.tag == "Weight")
         {            
             weight += weightStat;
-            
-            Destroy(collision.gameObject);
+
+            PlaySound(soundWeight, .3f);
+            collision.gameObject.SetActive(false);
         }
         else if (collision.gameObject.tag == "WeightBig")
         {
             weight += weightStat *2;
 
-            Destroy(collision.gameObject);
+            PlaySound(soundWeight, .3f);
+            collision.gameObject.SetActive(false);
         }
         else if(collision.gameObject.tag == "Calcium")
         {
             strength += calciumStat;
-            Destroy(collision.gameObject);
+            PlaySound(soundCalcium, .3f);
+            collision.gameObject.SetActive(false);
         }
         else if(collision.gameObject.tag == "Wind")
         {
             baseFallSpeed = minBaseFallSpeed;
             fallSpeed = baseFallSpeed + weight;
+            PlaySound(soundCloud, .3f);
+            anim.SetTrigger("Cloud");
         }     
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Wind")
+        {
+            anim.SetTrigger("Falling");
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -186,13 +221,18 @@ public class Player : MonoBehaviour
         {
             falling = false;
 
-            if(dangerZone)
+            PlaySound(soundDead, 1);
+
+            if (dangerZone)
             {
-                print("dead");
+                
+                anim.SetTrigger("Dead");
+                GameObject newBlood = Instantiate(blood);
+                newBlood.transform.position = new Vector2(transform.position.x + .7f, transform.position.y - 2);
             }
             else
             {
-                print("alive");
+                anim.SetTrigger("Alive");
             }
         }
     }
@@ -207,5 +247,29 @@ public class Player : MonoBehaviour
         {
             touchingRightWall = false;
         }
+    }
+
+    public void PlaySound(AudioClip sound, float vol)
+    {
+        sfx.PlayOneShot(sound, vol);
+    }
+
+    public void AliveSound()
+    {
+        PlaySound(soundAlive, 1);
+    }
+
+    public void EndGame()
+    {
+        bool alive;
+        if (dangerZone)
+        {
+            alive = false;
+        }
+        else
+        {
+            alive = true;
+        }
+        UI.EndGameMenu(alive);
     }
 }

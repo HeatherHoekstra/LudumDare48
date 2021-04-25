@@ -3,21 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
     public GameObject alert;
     public Player player;
+    public GameObject endGameMenu;
+
     [SerializeField] TextMeshProUGUI speedNr;
     [SerializeField] TextMeshProUGUI speedText;
     [SerializeField] TextMeshProUGUI strengthNr;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] TextMeshProUGUI result;
 
     // Update is called once per frame
     void Update()
@@ -51,5 +48,30 @@ public class UI : MonoBehaviour
         {
             newAlert.GetComponent<Image>().color = Color.red;
         }
+    }
+
+    public void EndGameMenu(bool alive)
+    {
+        if (alive)
+        {
+            result.text = "You survived the fall!";
+        }
+        else
+        {
+            result.text = "You are dead";
+        }
+        
+        endGameMenu.SetActive(true);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        endGameMenu.SetActive(false);
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }

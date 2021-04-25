@@ -26,7 +26,6 @@ public class SpawnItems : MonoBehaviour
     void Update()
     {
         currentPositionY = player.transform.position.y;
-        //print(lastSpawnPositionY - currentPositionY);
 
         if(lastSpawnPositionY - currentPositionY > spawnDistance)
         {
@@ -58,6 +57,8 @@ public class SpawnItems : MonoBehaviour
 
                 GameObject newItem = Instantiate(item);
                 newItem.transform.position = spawnPoint.transform.position;
+
+                StartCoroutine(newItem.GetComponent<DestroySelf>().WaitToDestroy());
             }                  
                         
         }

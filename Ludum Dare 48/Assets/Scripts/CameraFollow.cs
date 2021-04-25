@@ -9,11 +9,6 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float offset = 1;
     private bool hitGround;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void FixedUpdate()
